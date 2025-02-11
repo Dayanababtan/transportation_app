@@ -24,12 +24,12 @@ const Home = () => {
   }
 
   const cardData = [
-    { title: "Chat", image: require("../../images/chat_icon.png")},
-    { title: "Fleet", image: require("../../images/map_icon.png")},
-    { title: "Drivers", image: require("../../images/driver_icon.png")},
-    { title: "Invoices", image: require("../../images/invoice_icon.png")},
-    { title: "Trucks", image: require("../../images/truck_icon2.png")},
-    { title: "Hauls", image: require("../../images/haul_icon.png")},
+    { title: "Chat", image: require("../../images/chat_icon.png"), nav: "/chat"},
+    { title: "Fleet", image: require("../../images/map_icon.png"), nav: "/fleet"},
+    { title: "Drivers", image: require("../../images/driver_icon.png"), nav: "/drivers"},
+    { title: "Invoices", image: require("../../images/invoice_icon.png"), nav: "/invoices"},
+    { title: "Trucks", image: require("../../images/truck_icon2.png"), nav: "/trucks"},
+    { title: "Hauls", image: require("../../images/haul_icon.png"), nav: "/hauls"},
   ]
 
   const renderCard = (data, id) => (
@@ -41,7 +41,7 @@ const Home = () => {
         justifyContent: "center", 
         width: 350, height: 330, backgroundColor: "#c1eaf2" }}
     >
-      <CardActionArea onClick={() => console.log(`${data.title} CLICKED`)} style={{ cursor: "pointer" }} >
+      <CardActionArea onClick={() => navigate(data.nav)} style={{ cursor: "pointer" }} >
         <CardContent style={{ textAlign: "center" }}>
           <img 
             src={data.image} 
