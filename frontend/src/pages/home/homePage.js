@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/navbar/navbar';
-import './homePage.css'
+import './homePage.css';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import CardActions from '@mui/material/CardActions';
+import CardActionArea from '@mui/material/CardActions';
+
 
 const Home = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+
   useEffect(() => {
-    
     if (!token) {
-      navigate('/'); 
+      navigate('/');
     }
   }, [navigate]);
 
@@ -22,45 +23,49 @@ const Home = () => {
     return null;
   }
 
+  const cardData = [
+    { title: "Chat", image: require("../../images/chat_icon.png")},
+    { title: "Fleet", image: require("../../images/map_icon.png")},
+    { title: "Drivers", image: require("../../images/driver_icon.png")},
+    { title: "Invoices", image: require("../../images/invoice_icon.png")},
+    { title: "Trucks", image: require("../../images/truck_icon2.png")},
+    { title: "Hauls", image: require("../../images/haul_icon.png")},
+  ]
+
+  const renderCard = (data, id) => (
+    <Card 
+      key={id} 
+      style={{ display: "flex", 
+        flexDirection: "column", 
+        alignItems: "center",  // Centers items horizontally
+        justifyContent: "center", 
+        width: 350, height: 330, backgroundColor: "#c1eaf2" }}
+    >
+      <CardActionArea onClick={() => console.log(`${data.title} CLICKED`)} style={{ cursor: "pointer" }} >
+        <CardContent style={{ textAlign: "center" }}>
+          <img 
+            src={data.image} 
+            alt={data.title} 
+            style={{height: "120px", marginBottom: "10px" }} 
+          />
+          <Typography 
+            style={{ fontSize: 18, fontWeight: "bold" }} 
+            color="textPrimary"
+          >
+            {data.title}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
+  
+
   return (
-    <div className='home-container'>
-    <div>
-      <Navbar/>
-      <h1>Welcome to the Home Page!</h1>
-      <Card
-                style={{
-                    width: 400,
-                    backgroundColor: "yellow",
-                }}
-            >
-                <CardContent>
-                    <Typography
-                        style={{ fontSize: 14 }}
-                        color="textSecondary"
-                        gutterBottom
-                    >
-                        Greetings of the day
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                        How are you ?
-                    </Typography>
-                    <Typography
-                        style={{
-                            marginBottom: 12,
-                        }}
-                        color="textSecondary"
-                    >
-                        Keep Motivated
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                        Stay Happy
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button size="small">Stay Safe.....</Button>
-                </CardActions>
-            </Card>
-    </div>
+    <div className="home-container">
+      <Navbar />
+      <div className="card-container">
+      {cardData.map((data, index) => renderCard(data, index))}
+      </div>
     </div>
   );
 };

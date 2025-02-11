@@ -2,6 +2,9 @@
 .home-container {
     background-color: #fff6e9;
     min-height: 1000px; 
+    justify-content: center;
+    height: 100vh;
+    flex-direction: grid;
   }
   
   h1 {
@@ -22,5 +25,15 @@
   
   button:hover {
     background-color: #0056b3;
+  }
+  
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; 
+    justify-content: center;
+    margin-top: 20px;
+    max-width: 1200px;
+    margin-left: 300px;
   }
   

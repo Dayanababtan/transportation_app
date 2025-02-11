@@ -10,13 +10,13 @@ ul {
 
 a {
   text-decoration: none;
-  color:#00204a;
+  color:#80c4e9;
   font-size: 18px;
 }
 
 /* navbar */
 .Navbar {
-  background-color: #80c4e9;
+  background-color: #00204a;
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
