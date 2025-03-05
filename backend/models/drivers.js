@@ -29,7 +29,7 @@ router.get('/drivers', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    const { driverPhoneNumber, driverPassword } = req.body; 
+    const { driverPhoneNumber, driverPassword} = req.body; 
   
     try {
         const db = await connectToDatabase();
@@ -51,7 +51,38 @@ router.post('/login', async (req, res) => {
         const payload = { userId: user.id };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
   
-        res.json({ token });
+        res.json({ token , driverID: user.driverID});
+    } catch (err) {
+      console.error('Error:', err.message);
+      res.status(500).send('Server error');
+    }
+});
+
+router.post('/location', async (req, res) => {
+    const { driverID, locationLong, locationLat } = req.body; 
+
+    if (!driverID || locationLong === undefined || locationLat === undefined) {
+        return res.status(400).json({ error: "Missing required fields" });
+    }
+  
+    try {
+        const db = await connectToDatabase();
+        const driversCollection = db.collection('drivers');
+        const updatedDriver = await driversCollection.findOneAndUpdate(
+            { driverID: driverID },  
+            {
+                $set: { 
+                    locationLong: locationLong, 
+                    locationLat: locationLat 
+                }
+            },
+            { returnDocument: 'after' }  
+        );
+
+        if (!updatedDriver) {
+            return res.status(404).json({ error: "Driver not found" });
+        }
+        
     } catch (err) {
       console.error('Error:', err.message);
       res.status(500).send('Server error');

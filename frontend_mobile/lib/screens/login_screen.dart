@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_mobile/screens/home_screen.dart';
 import 'package:frontend_mobile/screens/login_screen.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -16,13 +17,16 @@ class LoginPage extends StatelessWidget {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.0.107:5000/drivers/login'),
+        Uri.parse('http://192.168.36.117:5000/drivers/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'driverPhoneNumber': driverPhoneNumber, 'driverPassword': driverPassword}),
       );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+        final String driverID = data['driverID'];
+        final storage = GetStorage();
+        storage.write('driverID', driverID);
         Navigator.push(context, MaterialPageRoute(builder: (context) =>HomePage()),
             );
       } else {
