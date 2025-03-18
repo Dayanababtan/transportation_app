@@ -76,17 +76,18 @@ Future<void> sendLocation() async {
 
   print('Latitude: $latitude, Longitude: $longitude');
 
-  // Send data to backend
-  await sendToServer(latitude, longitude);
+  sendToServer(latitude, longitude);
 }
 
 Future<void> sendToServer(double lat, double lon) async {
+  print("Sendtoserver called");
   final storage = GetStorage();
   String? driverID = storage.read('driverID');
   driverID ??= "unknown";
+  print("Sendtoserver called1");
 
-  String url = "http://192.168.36.117:5000/drivers/location"; 
-
+  String url = "http://192.168.0.106:5000/drivers/location"; 
+  print("Sendtoserver called2");
  var response = await http.post(
     Uri.parse(url),
     headers: {"Content-Type": "application/json"},

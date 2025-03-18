@@ -40,7 +40,7 @@ Future<void> sendLocation() async {
 }
 
 Future<void> sendToServer(double lat, double lon) async {
-  String url = "http://your-node-server.com/api/location"; // Update with your actual API URL
+  String url = "http://192.168.0.106:5000/drivers/location"; // Update with your actual API URL
 
   var response = await http.post(
     Uri.parse(url),

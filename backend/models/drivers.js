@@ -59,35 +59,28 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/location', async (req, res) => {
-    const { driverID, locationLong, locationLat } = req.body; 
+    const { driverID, locationLong, locationLat } = req.body;
 
     if (!driverID || locationLong === undefined || locationLat === undefined) {
         return res.status(400).json({ error: "Missing required fields" });
     }
-  
+
     try {
         const db = await connectToDatabase();
         const driversCollection = db.collection('drivers');
         const updatedDriver = await driversCollection.findOneAndUpdate(
-            { driverID: driverID },  
-            {
-                $set: { 
-                    locationLong: locationLong, 
-                    locationLat: locationLat 
-                }
-            },
-            { returnDocument: 'after' }  
+            { driverID: driverID },
+            { $set: { locationLong, locationLat } },
         );
 
-        if (!updatedDriver) {
-            return res.status(404).json({ error: "Driver not found" });
-        }
-        
+        return res.status(200).json({ message: "Location updated successfully", driver: updatedDriver.value });
+
     } catch (err) {
-      console.error('Error:', err.message);
-      res.status(500).send('Server error');
+        console.error('Error:', err.message);
+        res.status(500).send('Server error');
     }
 });
+
 
 
 
