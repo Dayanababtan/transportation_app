@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { MongoClient } = require('mongodb');
+const { MongoClient } = require('mongodb');ames
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -29,13 +29,12 @@ router.get('/dispatcher', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    const { dispatcherPhoneNumber, dispatcherPassword } = req.body; // Corrected field names
+    const { dispatcherPhoneNumber, dispatcherPassword } = req.body; 
   
     try {
         const db = await connectToDatabase();
         const dispatchers = db.collection('dispatchers');
         
-        // Corrected field names for matching in the database
         const user = await dispatchers.findOne({ dispatcherPhoneNumber });
 
         if (!user) {

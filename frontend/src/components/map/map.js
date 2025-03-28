@@ -13,6 +13,7 @@ import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
 import Overlay from "ol/Overlay";
 import truckIcon from "../../images/truck_icon2.png";
+import driverIcon from"../../images/driver_icon.png";
 
 function fetchDrivers(){
   return fetch('http://localhost:5000/drivers/drivers',{
@@ -43,39 +44,41 @@ async function getLocationPoints(map) {
       })
     );
 
-    // Create popup overlay
     const popup = new Overlay({
       element: document.createElement("div"),
       positioning: "bottom-center",
       offset: [0, -15],
     });
 
-    popup.getElement().innerHTML = `<strong>${driverName}</strong><br>Truck ID: ${truckID}`;
-    popup.getElement().style.background = "white";
+    popup.getElement().innerHTML = `<img src= ${driverIcon} alt = "driver picture" width=20 height:auto><strong>${driverName}</strong><br>Truck ID: ${truckID}`;
+    popup.getElement().style.background = "#FF8A08";
     popup.getElement().style.padding = "5px";
     popup.getElement().style.borderRadius = "5px";
     popup.getElement().style.boxShadow = "0px 0px 5px rgba(0,0,0,0.3)";
 
-    // Show popup on click
     feature.set("popup", popup);
 
     vectorSource.addFeature(feature);
     map.addOverlay(popup);
   });
 
-  // Add vector layer to map
   const vectorLayer = new VectorLayer({
     source: vectorSource,
   });
 
   map.addLayer(vectorLayer);
 
-  // Handle click event to show popups
   map.on("click", function (event) {
     const feature = map.forEachFeatureAtPixel(event.pixel, (feat) => feat);
-    if (feature && feature.get("popup")) {
+    
+    if (feature ) {
       const popup = feature.get("popup");
-      popup.setPosition(event.coordinate);
+      if(popup.getPosition())
+        popup.setPosition(null);
+      else{
+        const popup = feature.get("popup");
+        popup.setPosition(event.coordinate);
+      }
     }
   });
 }
